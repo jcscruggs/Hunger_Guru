@@ -30,7 +30,7 @@ namespace Hunger_Guru
                 
                 c.DefaultRequestHeaders.Add("Accept", "application/json");
                 
-                c.DefaultRequestHeaders.Add("user-key", "yourkey");
+               
             });
         }
 
