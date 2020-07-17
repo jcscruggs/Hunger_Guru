@@ -70,7 +70,7 @@ namespace Hunger_Guru.Models
 
     public partial class Locations
     {
-        public static Locations FromJson(string json) => JsonConvert.DeserializeObject<Locations>(json, Converter.Settings);
+        public static Location FromJson(string json) => JsonConvert.DeserializeObject<Location>(json, Converter.Settings);
     }
 
 
