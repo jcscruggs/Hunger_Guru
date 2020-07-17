@@ -10,6 +10,6 @@ This is the intial design of Hunger Guru but if all goes well I will be adding o
 
 This app is built with ASP.net core MVC, Boostrap, and C#.
 
-this project leverages the Zomato API which is a REST api that is a collection of GET requests
+this project leverages the Zomato API which is a REST api that is a collection of GET requests pertaining to restaurants.
 
 
