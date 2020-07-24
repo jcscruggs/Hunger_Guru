@@ -19,7 +19,7 @@ namespace Hunger_Guru.Models
     public partial class CuisineCuisine
     {
         [JsonProperty("cuisine_id")]
-        public long CuisineId { get; set; }
+        public int CuisineId { get; set; }
 
         [JsonProperty("cuisine_name")]
         public string CuisineName { get; set; }
