@@ -1,0 +1,35 @@
+﻿@model List<CuisineViewModel>
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+  
+    <div class="text-center text-black-50 ">
+        <h1 style="color:darkred">Tell the Guru What Cuisines You Want</h1>
+    </div>
+  
+    <p class="text-danger">@ViewData["error"]</p>
+    <form method="post" asp-controller="Home" asp-action="CuisineChoice">
+
+
+        
+
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            <input asp-for="@Model[i].Cuisine_Wanted" type="checkbox" />
+            <label asp-for="@Model[i].Cuisine_Wanted">@Model[i].name</label>
+            <input asp-for="@Model[i].ID" type="hidden" />
+            <input asp-for="@Model[i].name" type="hidden" />
+            <input asp-for="@Model[i].city_id" type="hidden" />
+            <br />
+        }
+
+        <div class="form-group">
+            <input type="submit" value="Submit" class="btn btn-primary" />
+        </div>
+
+
+
+
+    </form>

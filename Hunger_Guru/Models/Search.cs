@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -36,7 +37,7 @@ namespace Hunger_Guru.Models
         public string Apikey { get; set; }
 
         [JsonProperty("id")]
-        [JsonConverter(typeof(ParseStringConverter))]
+        
         public long Id { get; set; }
 
         [JsonProperty("name")]
@@ -46,6 +47,7 @@ namespace Hunger_Guru.Models
         public Uri Url { get; set; }
 
         [JsonProperty("location")]
+        [DisplayName("Address")]
         public Location Location { get; set; }
 
         [JsonProperty("switch_to_order_menu")]
@@ -180,9 +182,9 @@ namespace Hunger_Guru.Models
         [JsonProperty("longitude")]
         public string Longitude { get; set; }
 
-        [JsonProperty("zipcode")]
-        [JsonConverter(typeof(ParseStringConverter))]
-        public long Zipcode { get; set; }
+        
+        [JsonProperty("zipcode",NullValueHandling = NullValueHandling.Ignore)]
+        public int Zipcode { get; set; }
 
         [JsonProperty("country_id")]
         public long CountryId { get; set; }
@@ -227,7 +229,7 @@ namespace Hunger_Guru.Models
         public RatingObj RatingObj { get; set; }
 
         [JsonProperty("votes")]
-        [JsonConverter(typeof(ParseStringConverter))]
+        
         public long Votes { get; set; }
     }
 
@@ -246,7 +248,7 @@ namespace Hunger_Guru.Models
         public string Type { get; set; }
 
         [JsonProperty("tint")]
-        [JsonConverter(typeof(ParseStringConverter))]
+        
         public long Tint { get; set; }
     }
 
@@ -262,34 +264,5 @@ namespace Hunger_Guru.Models
     }
 
 
-    internal class ParseStringConverter : JsonConverter
-    {
-        public override bool CanConvert(Type t) => t == typeof(long) || t == typeof(long?);
-
-        public override object ReadJson(JsonReader reader, Type t, object existingValue, JsonSerializer serializer)
-        {
-            if (reader.TokenType == JsonToken.Null) return null;
-            var value = serializer.Deserialize<string>(reader);
-            long l;
-            if (Int64.TryParse(value, out l))
-            {
-                return l;
-            }
-            throw new Exception("Cannot unmarshal type long");
-        }
-
-        public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
-        {
-            if (untypedValue == null)
-            {
-                serializer.Serialize(writer, null);
-                return;
-            }
-            var value = (long)untypedValue;
-            serializer.Serialize(writer, value.ToString());
-            return;
-        }
-
-        public static readonly ParseStringConverter Singleton = new ParseStringConverter();
-    }
+   
 }

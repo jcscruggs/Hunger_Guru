@@ -1,0 +1,40 @@
+﻿@model Search
+@{
+    ViewData["Title"] = "restaurants";
+}
+
+
+
+<div class=" table-bordered">
+
+   <table  class="table table-sm table-striped table-hover border-bottom">
+
+    <thead>
+        <tr>
+            <th> @Html.DisplayNameFor(Model => Model.Restaurants[0].Restaurant.Name) </th>
+
+            <th> @Html.DisplayNameFor(Model => Model.Restaurants[0].Restaurant.Location.Address)</th>
+
+            <th> @Html.DisplayNameFor(Model => Model.Restaurants[0].Restaurant.UserRating.AggregateRating)</th>
+
+        </tr>
+
+    </thead>
+    <tbody>
+
+        @foreach (RestaurantElement restaurant in Model.Restaurants)
+        {
+        <tr>
+            <td>@Html.DisplayFor(Modelitem => restaurant.Restaurant.Name)</td>
+
+            <td>@Html.DisplayFor(Modelitem => restaurant.Restaurant.Location.Address)</td>
+
+            <td>@Html.DisplayFor(Modelitem => restaurant.Restaurant.UserRating.AggregateRating)</td>
+        </tr>
+
+
+        }
+    </tbody>
+
+   </table>
+</div>

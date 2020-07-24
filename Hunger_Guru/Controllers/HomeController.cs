@@ -14,14 +14,18 @@ namespace Hunger_Guru.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IHttpClientFactory _clientFactory;
+        private readonly IHttpClientFactory _clientFactory1;
         private readonly String key;
+        private readonly SearchCriteria searchCriteria;
 
         public HomeController(ILogger<HomeController> logger, IHttpClientFactory httpClientFactory)
         {
             _logger = logger;
             _clientFactory = httpClientFactory;
+            _clientFactory1 = httpClientFactory;
             // read key from ZomatoAPIkey.txt. this is done to keep api key out of source control(GitHub)
              key = System.IO.File.ReadAllText("ZomatoAPIkey.txt");
+            this.searchCriteria = new SearchCriteria();
         }
 
         public IActionResult Index()
@@ -59,16 +63,111 @@ namespace Hunger_Guru.Controllers
                 return View();
             }
 
-            TempData["data"] = responseString;
 
-            return RedirectToAction(nameof(State));
+            
+
+            TempData["city_id"] = location.LocationSuggestions[0].Id;
+
+            return RedirectToAction("CuisineChoice");
         }
 
-        public IActionResult State()
+        public async Task<IActionResult> CuisineChoice()
         {
-            // test for if the request response is recieved
-            ViewData["data"] = TempData["data"];
-            return View();
+            int city_id = (int)TempData["city_id"];
+            // build request string
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, "api/v2.1/cuisines?city_id=" + city_id);
+
+            String responseString = await APIbuilderAsync(request);
+
+            //ViewData["data1"] = city_id;
+            
+
+            Cuisine cuisine = Cuisine.FromJson(responseString);
+
+            // add form to view that holds checkboxes for cuisine types. 
+
+            List<CuisineViewModel> cuisines = new List<CuisineViewModel>();
+
+            for(int i = 0; i < cuisine.Cuisines.Count; i++)
+           {
+                
+
+              String name = cuisine.Cuisines[i].Cuisine.CuisineName;
+
+                cuisines.Add(new CuisineViewModel
+                {
+                    city_id = city_id,
+  
+                  ID = cuisine.Cuisines[i].Cuisine.CuisineId,
+
+                    name = cuisine.Cuisines[i].Cuisine.CuisineName,
+
+                    
+                }
+                ) ;
+            }
+
+            ViewData["error"] = "";
+
+            return View(cuisines);
+        }
+
+        [HttpPost]
+        public IActionResult CuisineChoice(List<CuisineViewModel> cuisinelist)
+        {
+            
+
+            int city_id = cuisinelist[0].city_id;
+
+            String cuisineChoices = "";
+
+            for (int i = 0; i < cuisinelist.Count; i++)
+            {
+                if (cuisinelist[i].Cuisine_Wanted)
+                {
+                    cuisineChoices += (cuisinelist[i].ID + "%2C");
+                }
+            }
+            
+            if(cuisineChoices.Length == 0)
+            {
+                ViewData["error"] = "The Guru needs you to choose atleast one cuisine";
+                
+                return View(cuisinelist);
+            }
+
+            cuisineChoices = cuisineChoices.TrimEnd('%','2','C');
+
+            TempData["cuisinechoices"] = cuisineChoices;
+            TempData["cityid"] = city_id;
+            
+
+            return RedirectToAction("restaurants");
+        }
+
+        public async Task<IActionResult> restaurants()
+        {
+            int city_id = (int)TempData["cityid"];
+            string cuisineChoices = (String)TempData["cuisinechoices"];//(String)TempData["cuisinechoices"];
+
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, "api/v2.1/search?entity_id=" + city_id + "&entity_type=city&count=5&cuisines=" + cuisineChoices);
+
+            var client = _clientFactory1.CreateClient("zomato");
+
+            // attach API key header
+            client.DefaultRequestHeaders.Add("user-key", key);
+
+            // wait for response from clent request
+            var response = await client.SendAsync(request);
+
+            String responseString = await response.Content.ReadAsStringAsync(); ;
+
+            Search searchresponse = Search.FromJson(responseString);
+
+            ViewData["data2"] = responseString;
+
+            return View(searchresponse);
+
         }
 
         public IActionResult About()
