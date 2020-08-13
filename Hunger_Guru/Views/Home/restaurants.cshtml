@@ -3,33 +3,28 @@
     ViewData["Title"] = "restaurants";
 }
 
-
+<h1>The Guru suggests one of these restaurants</h1>
 
 <div class=" table-bordered">
 
-   <table  class="table table-sm table-striped table-hover border-bottom">
+   <table  class="table table-sm  table-hover border-bottom">
 
-    <thead>
-        <tr>
-            <th> @Html.DisplayNameFor(Model => Model.Restaurants[0].Restaurant.Name) </th>
-
-            <th> @Html.DisplayNameFor(Model => Model.Restaurants[0].Restaurant.Location.Address)</th>
-
-            <th> @Html.DisplayNameFor(Model => Model.Restaurants[0].Restaurant.UserRating.AggregateRating)</th>
-
-        </tr>
-
-    </thead>
     <tbody>
 
         @foreach (RestaurantElement restaurant in Model.Restaurants)
         {
         <tr>
+            <td>
+                <img id="currentPhoto" src="@restaurant.Restaurant.FeaturedImage" onerror="this.onerror=null; this.src='https://localhost:44317/images/HungerGuru.png'" class="rounded-circle" alt="" width="120" height="140">
+            </td>
+
             <td>@Html.DisplayFor(Modelitem => restaurant.Restaurant.Name)</td>
 
-            <td>@Html.DisplayFor(Modelitem => restaurant.Restaurant.Location.Address)</td>
+            <td>@Html.DisplayFor(Modelitem => restaurant.Restaurant.Location.S_Address)</td>
 
             <td>@Html.DisplayFor(Modelitem => restaurant.Restaurant.UserRating.AggregateRating)</td>
+
+            <td><a asp-action="Details" asp-route-id="@restaurant.Restaurant.Id">Details</a></td>
         </tr>
 
 

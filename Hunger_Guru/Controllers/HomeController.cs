@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using Hunger_Guru.Models;
 using System.Net.Http;
 
+
 namespace Hunger_Guru.Controllers
 {
     public class HomeController : Controller
@@ -149,6 +150,7 @@ namespace Hunger_Guru.Controllers
         {
             int city_id = (int)TempData["cityid"];
             string cuisineChoices = (String)TempData["cuisinechoices"];//(String)TempData["cuisinechoices"];
+            TempData.Keep(); // save the data for another access
 
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, "api/v2.1/search?entity_id=" + city_id + "&entity_type=city&count=5&cuisines=" + cuisineChoices);
 
@@ -170,6 +172,22 @@ namespace Hunger_Guru.Controllers
 
         }
 
+        public async Task<IActionResult> Details(int id)
+        {
+
+            String cuisineChoices = (String)TempData["cuisinechoices"];
+
+            TempData.Keep();
+
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, "api/v2.1/restaurant?res_id="+id);
+
+            String response = await APIbuilderAsync(request);
+
+            RestaurantDetails restaurantDetails = RestaurantDetails.FromJson(response);
+
+
+            return View(restaurantDetails);
+        }
         public IActionResult About()
         {
             return View();

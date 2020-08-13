@@ -1,0 +1,36 @@
+﻿@model RestaurantDetails
+@{
+    ViewData["Title"] = "HungerGuru";
+}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3 bg-info"></div>
+            <div class="col-sm-6 text-center bg-light">
+                <img src="@Model.FeaturedImage" onerror="this.src='https://localhost:44317/images/HungerGuru.png'" class="rounded img-fluid" alt="" />
+
+                <h1><br />@Model.Name</h1>
+
+                <p>Rating:<mark> @Model.UserRating.R_AggregateRating / 5</mark> (@Model.UserRating.R_Votes votes)<br /></p>
+
+                <p>Hours: @Model.Timings</p>
+
+                <p>@Model.Location.R_Address, @Model.Location.R_City</p>
+
+                <p class="font-weight-bold">@Model.PhoneNumbers</p>
+
+                <table class="table table-sm ">
+                    <tbody>
+                        <tr>
+                            <td><a href="@Model.PhotosUrl.AbsoluteUri"> <button class="btn btn-info">Gallery</button> </a></td>
+                            <td><a href="@Model.MenuUrl.AbsoluteUri"> <button class="btn btn-info">Menu</button> </a></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <a asp-action="restaurants"> <button class="btn btn-info">Return To List</button> </a>
+            </div>
+
+            <div class="col-sm-3 bg-info"></div>
+
+        </div>
+        </div>
