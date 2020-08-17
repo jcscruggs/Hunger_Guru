@@ -20,11 +20,21 @@
         <input asp-for="State" class="form-control" />
         <span asp-validation-for="State" class="text-danger"></span>
 
-        <div class="form-group">
-            <input type="submit" value="Submit" class="btn btn-primary" />
-        </div>
+        
     </div>
-
+    <div class="form-group">
+        <label asp-for="priceRange" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif" class="control-label text-info"> </label>
+        <select asp-for="priceRange" class="custom-select">
+            <option value="0">Choose Price</option>
+            <option value="1">$</option>
+            <option value="2">$$</option>
+            <option value="3">$$$</option>
+            <option value="4">$$$$</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Next Step" class="btn btn-info" />
+    </div>
 
 
 </form>
