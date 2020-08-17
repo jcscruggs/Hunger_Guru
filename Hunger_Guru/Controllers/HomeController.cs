@@ -36,6 +36,7 @@ namespace Hunger_Guru.Controllers
 
         public IActionResult City()
         {
+
             return View();
         }
 
@@ -64,10 +65,17 @@ namespace Hunger_Guru.Controllers
                 return View();
             }
 
+            if(cityInfo.priceRange == 0)
+            {
+                ViewData["error"] = "the Guru needs a price Range to be chosen";
+                return View(cityInfo);
+            }
+
 
             
 
             TempData["city_id"] = location.LocationSuggestions[0].Id;
+            TempData["priceRange"] = cityInfo.priceRange;
 
             return RedirectToAction("CuisineChoice");
         }
@@ -75,6 +83,7 @@ namespace Hunger_Guru.Controllers
         public async Task<IActionResult> CuisineChoice()
         {
             int city_id = (int)TempData["city_id"];
+            TempData.Keep();
             // build request string
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, "api/v2.1/cuisines?city_id=" + city_id);
 
@@ -141,18 +150,22 @@ namespace Hunger_Guru.Controllers
 
             TempData["cuisinechoices"] = cuisineChoices;
             TempData["cityid"] = city_id;
-            
+
+            TempData.Keep();
 
             return RedirectToAction("restaurants");
         }
 
         public async Task<IActionResult> restaurants()
         {
+
+            // get data needed to make search request
             int city_id = (int)TempData["cityid"];
-            string cuisineChoices = (String)TempData["cuisinechoices"];//(String)TempData["cuisinechoices"];
+            string cuisineChoices = (String)TempData["cuisinechoices"];
+            int priceRange = (int)TempData["priceRange"];
             TempData.Keep(); // save the data for another access
 
-            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, "api/v2.1/search?entity_id=" + city_id + "&entity_type=city&count=5&cuisines=" + cuisineChoices);
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, "api/v2.1/search?entity_id=" + city_id + "&entity_type=city&cuisines=" + cuisineChoices + "&sort=rating&order=desc");
 
             var client = _clientFactory1.CreateClient("zomato");
 
@@ -166,7 +179,22 @@ namespace Hunger_Guru.Controllers
 
             Search searchresponse = Search.FromJson(responseString);
 
-            ViewData["data2"] = responseString;
+            // iterate through restaurant list and delete any restaurants that do not meet price criteria. 
+
+            for(int i = 0; i < searchresponse.Restaurants.Count; i++)
+            {
+                if(searchresponse.Restaurants[i].Restaurant.PriceRange != priceRange)
+                {
+                    searchresponse.Restaurants.RemoveAt(i);
+                }
+            }
+
+            // only want the top 5 restaurants to appear on the view page so remove all elements after 5th
+            int deletionAmount = searchresponse.Restaurants.Count - 5;
+            if (searchresponse.Restaurants.Count > 5)
+            {
+                searchresponse.Restaurants.RemoveRange(5, deletionAmount);
+            }
 
             return View(searchresponse);
 
@@ -177,6 +205,7 @@ namespace Hunger_Guru.Controllers
 
             String cuisineChoices = (String)TempData["cuisinechoices"];
 
+            // save temp data so it can be reused if user clicks back button in browser
             TempData.Keep();
 
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, "api/v2.1/restaurant?res_id="+id);

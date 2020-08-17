@@ -16,5 +16,8 @@ namespace Hunger_Guru.Models
         [StringLength(2)]
         [RegularExpression(@"^[A-Z]*$" , ErrorMessage = "Please use 2 letter capital initial of state")]
         public String State { get; set; }
+
+        [Required]
+        public int priceRange { get; set; }
     }
 }

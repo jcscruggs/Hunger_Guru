@@ -1,32 +1,89 @@
 ﻿@model List<CuisineViewModel>
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+
   
     <div class="text-center text-black-50 ">
-        <h1 style="color:darkred">Tell the Guru What Cuisines You Want</h1>
+        <h1 class="text-info">Tell the Guru What Cuisines You Want</h1>
     </div>
   
-    <p class="text-danger">@ViewData["error"]</p>
+    <p class="text-danger">@ViewData["error"] </p>
     <form method="post" asp-controller="Home" asp-action="CuisineChoice">
 
+        <div class="form-group text-center">
+            <input type="submit" value="Submit" class="btn btn-info" />
+        </div>
 
-        
+        <div class="row">
+            <div class="col-2 bg-info text-white">
+                @for (int i = 0; i < (Model.Count / 6); i++)
+                {
+                    <input asp-for="@Model[i].Cuisine_Wanted" type="checkbox" />
+                    <label asp-for="@Model[i].Cuisine_Wanted">@Model[i].name</label>
+                    <input asp-for="@Model[i].ID" type="hidden" />
+                    <input asp-for="@Model[i].name" type="hidden" />
+                    <input asp-for="@Model[i].city_id" type="hidden" />
+                    <br />
+                }
+            </div>
+            <div class="col-2 text-info">
+                @for (int i = Model.Count / 6; i < (Model.Count  / 3); i++)
+                {
+                    <input asp-for="@Model[i].Cuisine_Wanted" type="checkbox" />
+                    <label asp-for="@Model[i].Cuisine_Wanted">@Model[i].name</label>
+                    <input asp-for="@Model[i].ID" type="hidden" />
+                    <input asp-for="@Model[i].name" type="hidden" />
+                    <input asp-for="@Model[i].city_id" type="hidden" />
+                    <br />
+                }
+            </div>
+            <div class="col-2 bg-info text-white">
+                @for (int i = Model.Count / 3; i < (Model.Count /2); i++)
+                {
+                    <input asp-for="@Model[i].Cuisine_Wanted" type="checkbox" />
+                    <label asp-for="@Model[i].Cuisine_Wanted">@Model[i].name</label>
+                    <input asp-for="@Model[i].ID" type="hidden" />
+                    <input asp-for="@Model[i].name" type="hidden" />
+                    <input asp-for="@Model[i].city_id" type="hidden" />
+                    <br />
+                }
+            </div>
+            <div class="col-2 text-info">
+                @for (int i = (Model.Count/2); i < ((Model.Count * 2) / 3); i++)
+                {
+                    <input asp-for="@Model[i].Cuisine_Wanted" type="checkbox" />
+                    <label asp-for="@Model[i].Cuisine_Wanted">@Model[i].name</label>
+                    <input asp-for="@Model[i].ID" type="hidden" />
+                    <input asp-for="@Model[i].name" type="hidden" />
+                    <input asp-for="@Model[i].city_id" type="hidden" />
+                    <br />
+                }
+            </div>
+            <div class="col-2 bg-info text-white">
+                @for (int i = ((Model.Count * 2) / 3); i < ((Model.Count * 5) / 6); i++)
+                {
+                    <input asp-for="@Model[i].Cuisine_Wanted" type="checkbox" />
+                    <label asp-for="@Model[i].Cuisine_Wanted">@Model[i].name</label>
+                    <input asp-for="@Model[i].ID" type="hidden" />
+                    <input asp-for="@Model[i].name" type="hidden" />
+                    <input asp-for="@Model[i].city_id" type="hidden" />
+                    <br />
+                }
+            </div>
+            <div class="col-2 text-info">
+                @for (int i = ((Model.Count * 5) / 6); i < Model.Count; i++)
+                {
+                    <input asp-for="@Model[i].Cuisine_Wanted" type="checkbox" />
+                    <label asp-for="@Model[i].Cuisine_Wanted">@Model[i].name</label>
+                    <input asp-for="@Model[i].ID" type="hidden" />
+                    <input asp-for="@Model[i].name" type="hidden" />
+                    <input asp-for="@Model[i].city_id" type="hidden" />
+                    <br />
+                }
+            </div>
+        </div>
 
-        @for (int i = 0; i < Model.Count; i++)
-        {
-            <input asp-for="@Model[i].Cuisine_Wanted" type="checkbox" />
-            <label asp-for="@Model[i].Cuisine_Wanted">@Model[i].name</label>
-            <input asp-for="@Model[i].ID" type="hidden" />
-            <input asp-for="@Model[i].name" type="hidden" />
-            <input asp-for="@Model[i].city_id" type="hidden" />
-            <br />
-        }
-
-        <div class="form-group">
-            <input type="submit" value="Submit" class="btn btn-primary" />
+        <div class="form-group text-center">
+            <p><br /></p>
+            <input type="submit" value="Submit" class="btn btn-info" />
         </div>
 
 

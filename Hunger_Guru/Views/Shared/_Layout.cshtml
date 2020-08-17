@@ -9,9 +9,11 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-info border-bottom box-shadow mb-3">
             <div class="container">
-                <a style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif"  class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Hunger Guru</a>
+                <a style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif"  class="navbar-brand text-white-50" asp-area="" asp-controller="Home" asp-action="Index">
+                <u>HungerGuru</u>
+                </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -19,10 +21,10 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif" class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Start Over</a>
+                            <a style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif" class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Start Over</a>
                         </li>
                         <li class="nav-item">
-                            <a style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif"  class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">About</a>
+                            <a style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif"  class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="About">About</a>
                         </li>
                     </ul>
                 </div>
@@ -35,9 +37,9 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted bg-info">
         <div class="container">
-            &copy; 2020 - Hunger_Guru - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2020 - Hunger Guru 
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

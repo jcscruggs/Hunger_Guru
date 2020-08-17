@@ -12,6 +12,26 @@
 
                 <p>Rating:<mark> @Model.UserRating.R_AggregateRating / 5</mark> (@Model.UserRating.R_Votes votes)<br /></p>
 
+                @{ if (Model.PriceRange == 1)
+                    {
+                        <p>Price: $ / $$$$</p>
+                    }
+                    else if (Model.PriceRange == 2)
+                    {
+                        <p>Price: $$ / $$$$</p>
+                    }
+                    else if (Model.PriceRange == 3)
+                    {
+                        <p> Price: $$$ / $$$$</p>
+                    }
+                    else
+                    {
+                        <p> Price: $$$$ / $$$$</p>
+                    }
+
+
+                }
+
                 <p>Hours: @Model.Timings</p>
 
                 <p>@Model.Location.R_Address, @Model.Location.R_City</p>

@@ -3,11 +3,11 @@
     ViewData["Title"] = "restaurants";
 }
 
-<h1>The Guru suggests one of these restaurants</h1>
+<h1 class="text-center text-info">The Guru suggests one of these restaurants</h1>
 
 <div class=" table-bordered">
 
-   <table  class="table table-sm  table-hover border-bottom">
+   <table  class="table table-sm  table-hover table-borderless table-info table-striped" >
 
     <tbody>
 
@@ -22,7 +22,7 @@
 
             <td>@Html.DisplayFor(Modelitem => restaurant.Restaurant.Location.S_Address)</td>
 
-            <td>@Html.DisplayFor(Modelitem => restaurant.Restaurant.UserRating.AggregateRating)</td>
+            <td>@Html.DisplayFor(Modelitem => restaurant.Restaurant.UserRating.AggregateRating) / 5</td>
 
             <td><a asp-action="Details" asp-route-id="@restaurant.Restaurant.Id">Details</a></td>
         </tr>
